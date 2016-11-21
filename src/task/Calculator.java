@@ -4,11 +4,57 @@ import org.apache.commons.cli.*;
 
 public class Calculator {
 
-    private static int left;
-    private static int right;
-    private static String operation;
-
     public static void main(String[] args) throws ParseException {
+
+        System.out.println(calculate(args));
+    }
+
+    public static String calculate(String[] args) throws ParseException {
+
+        CommandLineParser cmdLinePosixParser = new PosixParser();
+        CommandLine commandLine = cmdLinePosixParser.parse(setOptions(), args);
+
+        if (!commandLine.hasOption("l")) {
+            return "Нет левого операнда.";
+        }
+        if (!commandLine.hasOption("r")) {
+            return "Нет правого операнда.";
+        }
+        if (!commandLine.hasOption("o")) {
+            return "Нет параметра операции.";
+        }
+
+        int left = Integer.parseInt(commandLine.getOptionValue("l"));
+        int right = Integer.parseInt(commandLine.getOptionValue("r"));
+        String operation = commandLine.getOptionValue("o");
+
+        String result = "";
+
+        switch (operation) {
+            case "mult":
+                result = compileResultString(left, right, left * right, "*") ;
+                break;
+            case "add":
+                result = compileResultString(left, right, left + right, "+") ;
+                break;
+            case "sub":
+                result = compileResultString(left, right, left - right, "-") ;
+                break;
+            case "div":
+                result = compileResultString(left, right, (double) left / right, "/") ;
+                break;
+        }
+        return result;
+    }
+
+    private static String compileResultString(int left, int right, int result, String operation) {
+        return left + " " + operation + " " + right + " = " +result;
+    }
+    private static String compileResultString(int left, int right, double result, String operation) {
+        return left + " " + operation + " " + right + " = " +result;
+    }
+
+    private static Options setOptions() {
         Option optionLeft = new Option("l", "left", true, "Left");
         Option optionRight = new Option("r", "right", true, "Right");
         Option optionOperation = new Option("o", "operation", true, "Operation");
@@ -22,33 +68,6 @@ public class Calculator {
         posixOptions.addOption(optionRight);
         posixOptions.addOption(optionOperation);
 
-        CommandLineParser cmdLinePosixParser = new PosixParser();
-        CommandLine commandLine = cmdLinePosixParser.parse(posixOptions, args);
-
-        if (commandLine.hasOption("l")) {
-            left = Integer.parseInt(commandLine.getOptionValue("l"));
-        }
-        if (commandLine.hasOption("r")) {
-            right = Integer.parseInt(commandLine.getOptionValue("r"));
-        }
-        if (commandLine.hasOption("o")) {
-            operation = commandLine.getOptionValue("o");
-        }
-        double result = 0;
-        switch (operation) {
-            case "mult":
-                result = left * right;
-                break;
-            case "add":
-                result = left + right;
-                break;
-            case "sub":
-                result = left - right;
-                break;
-            case "div":
-                result = (double) left / right;
-                break;
-        }
-        System.out.println(left + " " + operation + " " + right + " = " +result);
+        return posixOptions;
     }
 }
