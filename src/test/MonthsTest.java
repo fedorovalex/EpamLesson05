@@ -22,11 +22,11 @@ public class MonthsTest {
     @Test
     public void getAmountDaysTestOnAmountDaysInApril() {
         Months months = Months.APRIL;
-        assertEquals(months.getAmountDays(), 30);
+        assertEquals(months.getAmountDays(2016), 30);
     }
 
     @Test
     public void getAmountDaysTestOnAmountDaysInFebruary() {
-        assertEquals(Months.FEBRUARY.getAmountDays(), 28);
+        assertEquals(Months.FEBRUARY.getAmountDays(2012), 29);
     }
 }

@@ -1,37 +1,41 @@
 package task;
 
-public enum Months {
-    JANUARY, FEBRUARY, MARCH, APRIL, MAY, JUNE, JULY, AUGUST, SEPTEMBER, OCTOBER, NOVEMBER, DECEMBER;
+import java.time.LocalDate;
 
-    public Months next() {
-        return Months.values()[(this.ordinal() + 1) % 12];
+public enum Months {
+    JANUARY(31),
+    FEBRUARY(28){
+        @Override
+        public int getAmountDays(int year) {
+            LocalDate localDate = LocalDate.ofYearDay(year, 1);
+            if (localDate.isLeapYear()) {
+                return super.amountDays + 1;
+            }
+            return super.amountDays;
+        }
+    },
+    MARCH(31),
+    APRIL(30),
+    MAY(31),
+    JUNE(30),
+    JULY(30),
+    AUGUST(31),
+    SEPTEMBER(30),
+    OCTOBER(31),
+    NOVEMBER(30),
+    DECEMBER(31);
+
+    private final int amountDays;
+
+    private Months(int amountDays) {
+        this.amountDays = amountDays;
     }
 
-    public int getAmountDays() {
+    public Months next() {
+        return Months.values()[(this.ordinal() + 1) % Months.values().length];
+    }
 
-        int amountDays = 0;
-
-        switch (this) {
-            case FEBRUARY:
-                amountDays = 28;
-                break;
-            case APRIL:
-            case JUNE:
-            case JULY:
-            case SEPTEMBER:
-            case NOVEMBER:
-                amountDays = 30;
-                break;
-            case JANUARY:
-            case MARCH:
-            case MAY:
-            case AUGUST:
-            case OCTOBER:
-            case DECEMBER:
-                amountDays = 31;
-                break;
-        }
-
-        return amountDays;
+    public int getAmountDays(int year) {
+        return this.amountDays;
     }
 }
