@@ -23,7 +23,7 @@ public class Program {
     }
 
     public String getOperationSymbol() {
-        return this.operation.toString();
+        return this.operation.getSymbol();
     }
 
     public double calculate() {

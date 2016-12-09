@@ -15,8 +15,11 @@ public class Calculator {
 
             System.out.println(result);
         }
-        catch (ParametersException | ParseException e) {
+        catch (ParseException | ParametersException e) {
             System.out.println(e.getMessage());
+            System.out.println(Helper.getHelp());
+        }
+        catch (Exception e) {
             System.out.println(Helper.getHelp());
         }
     }

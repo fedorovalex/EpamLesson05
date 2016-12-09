@@ -24,23 +24,10 @@ public class CmdLine {
         int left = Integer.parseInt(commandLine.getOptionValue("l"));
         int right = Integer.parseInt(commandLine.getOptionValue("r"));
 
-        Operation operation;
-
-        switch (commandLine.getOptionValue("o")) {
-            case "mult":
-                operation = new Multiplication();
-                break;
-            case "add":
-                operation = new Addition();
-                break;
-            case "sub":
-                operation = new Subtraction();
-                break;
-            case "div":
-                operation = new Division();
-                break;
-            default:
-                throw new ParametersException("Неизвестная операция.");
+        OperationManager operationManager = new OperationManager();
+        Operation operation = operationManager.findOperation(commandLine.getOptionValue("o"));
+        if (operation == null) {
+            throw new ParametersException("Неизвестная операция.");
         }
         return new Program(left, right, operation);
     }

@@ -7,7 +7,7 @@ public class Multiplication implements Operation {
     }
 
     @Override
-    public String toString() {
+    public String getSymbol() {
         return "*";
     }
 }
